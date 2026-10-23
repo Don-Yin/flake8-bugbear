@@ -1,0 +1,97 @@
+{
+  "repository": "https://github.com/PyCQA/flake8-bugbear",
+  "base_sha": "bc1ec773c4bcaf121ca810cb78f5fcb3249d88c9",
+  "measurement": "B909 diagnostics emitted by BugBearChecker.run()",
+  "cases": [
+    {
+      "label": "if body",
+      "expected": 1,
+      "source": "items = [1, 2, 3]\nfor item in items:\n    if item == 1:\n        items.remove(item)\n",
+      "base_diagnostics": [
+        {
+          "line": 4,
+          "column": 8,
+          "message": "B909 editing a loop's mutable iterable often leads to unexpected results/bugs"
+        }
+      ],
+      "fixed_diagnostics": [
+        {
+          "line": 4,
+          "column": 8,
+          "message": "B909 editing a loop's mutable iterable often leads to unexpected results/bugs"
+        }
+      ],
+      "base_count": 1,
+      "fixed_count": 1
+    },
+    {
+      "label": "elif body",
+      "expected": 1,
+      "source": "items = [1, 2, 3]\nfor item in items:\n    if item == 1:\n        pass\n    elif item == 2:\n        items.remove(item)\n",
+      "base_diagnostics": [],
+      "fixed_diagnostics": [
+        {
+          "line": 6,
+          "column": 8,
+          "message": "B909 editing a loop's mutable iterable often leads to unexpected results/bugs"
+        }
+      ],
+      "base_count": 0,
+      "fixed_count": 1
+    },
+    {
+      "label": "else body",
+      "expected": 1,
+      "source": "items = [1, 2, 3]\nfor item in items:\n    if item == 1:\n        pass\n    else:\n        items.remove(item)\n",
+      "base_diagnostics": [],
+      "fixed_diagnostics": [
+        {
+          "line": 6,
+          "column": 8,
+          "message": "B909 editing a loop's mutable iterable often leads to unexpected results/bugs"
+        }
+      ],
+      "base_count": 0,
+      "fixed_count": 1
+    },
+    {
+      "label": "if condition",
+      "expected": 1,
+      "source": "items = [1, 2, 3]\nfor item in items:\n    if items.pop():\n        break\n",
+      "base_diagnostics": [],
+      "fixed_diagnostics": [
+        {
+          "line": 3,
+          "column": 7,
+          "message": "B909 editing a loop's mutable iterable often leads to unexpected results/bugs"
+        }
+      ],
+      "base_count": 0,
+      "fixed_count": 1
+    },
+    {
+      "label": "else + break",
+      "expected": 0,
+      "source": "items = [1, 2, 3]\nfor item in items:\n    if item == 1:\n        pass\n    else:\n        items.remove(item)\n        break\n",
+      "base_diagnostics": [],
+      "fixed_diagnostics": [],
+      "base_count": 0,
+      "fixed_count": 0
+    },
+    {
+      "label": "else + conditional break",
+      "expected": 1,
+      "source": "items = [1, 2, 3]\nfor item in items:\n    if item == 1:\n        pass\n    else:\n        items.remove(item)\n        if item == 2:\n            break\n",
+      "base_diagnostics": [],
+      "fixed_diagnostics": [
+        {
+          "line": 6,
+          "column": 8,
+          "message": "B909 editing a loop's mutable iterable often leads to unexpected results/bugs"
+        }
+      ],
+      "base_count": 0,
+      "fixed_count": 1
+    }
+  ]
+}
